@@ -9,17 +9,43 @@
 </template>
 
 <script>
-import { addNote, deleteNote, toggleFavorite } from '../vuex/actions'
+import min from 'min'
+import Note from '../note-model'
 
 export default {
-  vuex: {
-    getters: {
-      activeNote: state => state.activeNote
+
+  data() {
+    return {
+      activeNote: {}
+    }
+  },
+
+  ready() {
+    min.on('editing', note => this.$data.activeNote = note)
+  },
+
+  methods: {
+    changeActiveNode(id, note = null) {
+      if (!note) {
+        min.hgetall(`note:${id}`)
+          .then(note => this.$data.activeNote = note)
+        } else {
+          this.$data.activeNote = note
+        }
     },
-    actions: {
-      addNote,
-      deleteNote,
-      toggleFavorite
+
+    addNote() {
+      const note = new Note()
+      note.active()
+      this.changeActiveNode(null, note)
+    },
+
+    deleteNote() {
+      this.$data.activeNote.delete()
+    },
+
+    toggleFavorite() {
+      this.$data.activeNote.toggleFavorite()
     }
   }
 }

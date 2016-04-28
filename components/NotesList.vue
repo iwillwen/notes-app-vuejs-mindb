@@ -30,7 +30,7 @@
           :class="{active: activeNote === note}"
           @click="updateActiveNote(note)">
           <h4 class="list-group-item-heading">
-            {{note.text.trim().substring(0, 30)}}
+            {{note.content.trim().substring(0, 30)}}
           </h4>
         </a>
       </div>
@@ -40,26 +40,56 @@
 </template>
 
 <script>
-import { updateActiveNote } from '../vuex/actions'
+import min from 'min'
+import Note from '../note-model'
 
 export default {
-  data () {
+  data() {
     return {
-      show: 'all'
+      show: 'all',
+      notes: [],
+      activeNote: {}
     }
   },
-  vuex: {
-    getters: {
-      notes: state => state.notes,
-      activeNote: state => state.activeNote
-    },
-    actions: {
-      updateActiveNote
+
+  ready() {
+    Note.allNotes()
+      .then(notes => {
+        !notes.length || notes[0].active()
+        this.$data.notes = notes
+        this.$data.activeNote = notes[0]
+      })
+
+    min
+      .on('new-note', note => {
+        this.$data.notes.unshift(note)
+        this.$data.activeNote = note
+      })
+      .on('mark-favorite', (id, favorite) => {
+        (this.$data.notes.filter(note => note.id === id)[0] || {}).favorite = favorite
+      })
+      .on('remove-note', note => {
+        this.$data.notes.splice(this.$data.notes.map((n, i) => n.id == note.id ? i : 0)
+          .reduce((a, b) => a + b), 1)
+
+        if (this.$data.activeNote.id == note.id) {
+          this.$data.notes[0].active()
+          this.$data.activeNote = notes[0]
+        }
+      })
+
+  },
+
+  methods: {
+    updateActiveNote(note) {
+      this.activeNote = note
+      note.active()
     }
   },
+
   computed: {
-    filteredNotes () {
-      if (this.show === 'all'){
+    filteredNotes() {
+      if (this.show === 'all') {
         return this.notes
       } else if (this.show === 'favorites') {
         return this.notes.filter(note => note.favorite)

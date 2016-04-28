@@ -1,7 +1,7 @@
 {
-  "name": "note-app-vuejs-vuex",
+  "name": "note-app-vuejs-mindb",
   "version": "1.0.0",
-  "description": "A notes application built using VueJs and Vuex",
+  "description": "A notes application built using Vue.js and MinDB",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -16,7 +16,7 @@
     "vuex",
     "notes"
   ],
-  "author": "Fady Makram",
+  "author": "Fady Makram & Will Wen Gunn",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.7.6",
@@ -33,7 +33,9 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "vue": "^1.0.21",
-    "vuex": "^0.6.2"
+    "marked": "^0.3.5",
+    "min": "^0.1.13",
+    "node-uuid": "^1.4.7",
+    "vue": "^1.0.21"
   }
 }

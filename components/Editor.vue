@@ -1,7 +1,7 @@
 <template>
   <div id="note-editor">
     <textarea
-      :value="activeNoteText"
+      v-model="activeNoteText"
       @input="editNote"
       class="form-control">
     </textarea>
@@ -9,16 +9,30 @@
 </template>
 
 <script>
-import { editNote } from '../vuex/actions'
+import min from 'min'
 
 export default {
-  vuex: {
-    getters: {
-      activeNoteText: state => state.activeNote.text
-    },
-    actions: {
-      editNote
+
+  data() {
+    return {
+      note: null,
+      activeNoteText: ''
+    }
+  },
+
+  ready() {
+    min.on('editing', note => {
+      this.note = note,
+
+      this.activeNoteText = note.content
+    })
+  },
+
+  methods: {
+    editNote() {
+      this.note.edit(this.activeNoteText)
     }
   }
+
 }
 </script>
