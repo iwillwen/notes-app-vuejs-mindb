@@ -56,25 +56,25 @@ export default {
     Note.allNotes()
       .then(notes => {
         !notes.length || notes[0].active()
-        this.$data.notes = notes
-        this.$data.activeNote = notes[0]
+        this.notes = notes
+        this.activeNote = notes[0]
       })
 
     min
       .on('new-note', note => {
-        this.$data.notes.unshift(note)
-        this.$data.activeNote = note
+        this.notes.unshift(note)
+        this.activeNote = note
       })
       .on('mark-favorite', (id, favorite) => {
-        (this.$data.notes.filter(note => note.id === id)[0] || {}).favorite = favorite
+        (this.notes.filter(note => note.id === id)[0] || {}).favorite = favorite
       })
       .on('remove-note', note => {
-        this.$data.notes.splice(this.$data.notes.map((n, i) => n.id == note.id ? i : 0)
+        this.notes.splice(this.notes.map((n, i) => n.id == note.id ? i : 0)
           .reduce((a, b) => a + b), 1)
 
-        if (this.$data.activeNote.id == note.id) {
-          this.$data.notes[0].active()
-          this.$data.activeNote = notes[0]
+        if (this.activeNote.id == note.id) {
+          this.notes[0].active()
+          this.activeNote = notes[0]
         }
       })
 

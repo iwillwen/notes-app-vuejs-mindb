@@ -10245,7 +10245,7 @@
 	    var _this = this;
 
 	    _min2.default.on('editing', function (note) {
-	      return _this.$data.activeNote = note;
+	      return _this.activeNote = note;
 	    });
 	  },
 
@@ -10258,10 +10258,10 @@
 
 	      if (!note) {
 	        _min2.default.hgetall('note:' + id).then(function (note) {
-	          return _this2.$data.activeNote = note;
+	          return _this2.activeNote = note;
 	        });
 	      } else {
-	        this.$data.activeNote = note;
+	        this.activeNote = note;
 	      }
 	    },
 	    addNote: function addNote() {
@@ -10270,10 +10270,10 @@
 	      this.changeActiveNode(null, note);
 	    },
 	    deleteNote: function deleteNote() {
-	      this.$data.activeNote.delete();
+	      this.activeNote.delete();
 	    },
 	    toggleFavorite: function toggleFavorite() {
-	      this.$data.activeNote.toggleFavorite();
+	      this.activeNote.toggleFavorite();
 	    }
 	  }
 	};
@@ -15860,27 +15860,27 @@
 
 	    _noteModel2.default.allNotes().then(function (notes) {
 	      !notes.length || notes[0].active();
-	      _this.$data.notes = notes;
-	      _this.$data.activeNote = notes[0];
+	      _this.notes = notes;
+	      _this.activeNote = notes[0];
 	    });
 
 	    _min2.default.on('new-note', function (note) {
-	      _this.$data.notes.unshift(note);
-	      _this.$data.activeNote = note;
+	      _this.notes.unshift(note);
+	      _this.activeNote = note;
 	    }).on('mark-favorite', function (id, favorite) {
-	      (_this.$data.notes.filter(function (note) {
+	      (_this.notes.filter(function (note) {
 	        return note.id === id;
 	      })[0] || {}).favorite = favorite;
 	    }).on('remove-note', function (note) {
-	      _this.$data.notes.splice(_this.$data.notes.map(function (n, i) {
+	      _this.notes.splice(_this.notes.map(function (n, i) {
 	        return n.id == note.id ? i : 0;
 	      }).reduce(function (a, b) {
 	        return a + b;
 	      }), 1);
 
-	      if (_this.$data.activeNote.id == note.id) {
-	        _this.$data.notes[0].active();
-	        _this.$data.activeNote = notes[0];
+	      if (_this.activeNote.id == note.id) {
+	        _this.notes[0].active();
+	        _this.activeNote = notes[0];
 	      }
 	    });
 	  },

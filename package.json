@@ -13,7 +13,7 @@
   },
   "keywords": [
     "vuejs",
-    "vuex",
+    "mindb",
     "notes"
   ],
   "author": "Fady Makram & Will Wen Gunn",
@@ -33,7 +33,6 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "marked": "^0.3.5",
     "min": "^0.1.13",
     "node-uuid": "^1.4.7",
     "vue": "^1.0.21"

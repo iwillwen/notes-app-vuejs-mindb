@@ -21,16 +21,16 @@ export default {
   },
 
   ready() {
-    min.on('editing', note => this.$data.activeNote = note)
+    min.on('editing', note => this.activeNote = note)
   },
 
   methods: {
     changeActiveNode(id, note = null) {
       if (!note) {
         min.hgetall(`note:${id}`)
-          .then(note => this.$data.activeNote = note)
+          .then(note => this.activeNote = note)
         } else {
-          this.$data.activeNote = note
+          this.activeNote = note
         }
     },
 
@@ -41,11 +41,11 @@ export default {
     },
 
     deleteNote() {
-      this.$data.activeNote.delete()
+      this.activeNote.delete()
     },
 
     toggleFavorite() {
-      this.$data.activeNote.toggleFavorite()
+      this.activeNote.toggleFavorite()
     }
   }
 }
